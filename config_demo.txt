@@ -1,0 +1,6 @@
+------------------------------------------------------------------------
+Very early implementation that is specific to my project at the moment
+Config file needs to be named "config.txt". Follow the below format. 
+Case-sensitive but not white-space sensitive.
+------------------------------------------------------------------------
+results_dir = /home/user/some/path
