@@ -4,9 +4,19 @@ import os
 from os import listdir
 
 for sex in ["male","female"]:
-    INPUT_DIR = "/home/chordata/Desktop/Bielawski_Lab/MSc/results/"+sex+"/taper_corrected_alignments/"
-    OUTPUT_DIR = "/home/chordata/Desktop/Bielawski_Lab/MSc/results/"+sex+"/gaptrimmed_alignments/"
+    with open ("../config.txt",'r') as config_file:
+        for line in config_file:
+            #Sanitize
+            line = line.strip().replace(" ","")
+            if "results_dir" in line:                
+                #Adds the trailing / in case it's forgotten in the config.txt
+                #to just avoid errors altogether
+                if line[-1] != '/':
+                    line += '/'
+                INPUT_DIR = line.split('=')[-1]+sex+"/taper_corrected_alignments/"
+                OUTPUT_DIR = line.split('=')[-1]+sex+"/gaptrimmed_alignments/"
     os.makedirs(OUTPUT_DIR, exist_ok=True)
+    
     MAX_GAP_PERCENTAGE = 50.0  # maximum allowed gap percentage
     for file in listdir(INPUT_DIR):
         print(INPUT_DIR+file)
