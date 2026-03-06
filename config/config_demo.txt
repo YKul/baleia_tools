@@ -1,0 +1,35 @@
+------------------------------------------------------------------------
+Config file needs to be named "config.txt". Follow the below format. 
+Case-sensitive but not white-space sensitive.
+
+Data groups can be called anything, and any number of groups can be 
+supported. Groups can be used, for example, if you are running analyses 
+on male and female associated genes.
+
+Paths can be the same between groups, but each group must explicitly 
+define every path. Path order does not matter, but paths for a group 
+should be defined together as a group. 
+
+Symbols, characters, etc can be used for formatting, if desired.
+
+Notes will be ignored.
+------------------------------------------------------------------------
+EXAMPLE:
+
+This is the group for male-associated genes
+#Male
+result_dir = /path/to/male/results/directory
+genelist_path=/path/to/male/genelist/file.any_extension
+genomics_path=/path/to/male/directory
+
+-------------------------------------------------
+
+This is the group for female-associated genes
+#Female
+result_dir = /path/to/female/results/directory
+genelist_path=/path/to/female/genelist/file.any_extension
+genomics_path=/path/to/female/directory
+
+-------------------------------------------------
+
+

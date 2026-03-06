@@ -9,7 +9,7 @@ To utilize these tools, access through run_get_seqs.py
 '''
 from typing import List
 from Bio import SeqIO
-from filedit import TextToList
+from src.filedit import TextToList
 
 
 ###############################

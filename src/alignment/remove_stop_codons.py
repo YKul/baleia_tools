@@ -94,7 +94,7 @@ def remove_stop_codons_alignio(input_file, output_file, type="fasta"):
 
 #This is implemented only for my own local testing - Yuri
 for sex in ["male","female"]:
-    with open ("../config.txt",'r') as config_file:
+    with open ("../config/config.txt",'r') as config_file:
         for line in config_file:
             #Sanitize
             line = line.strip().replace(" ","")

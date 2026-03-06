@@ -1,5 +1,5 @@
 # Ignore the config file
-config.txt
+config/config.txt
 
 # Ignore MacOS system files
 .DS_Store
