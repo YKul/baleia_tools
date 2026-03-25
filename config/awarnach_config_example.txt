@@ -1,0 +1,24 @@
+Note: Shared paths 'input/error output'
+should have no entries for specific groups if used.
+Config file needs to be named "awarnach_config.txt"
+
+See awarnach_config_demo.txt for each entry possible
+for each category.
+
+#Shared
+email=
+MACSE_path=
+JAVA_path=
+error_output=
+
+-------------------------------------------------
+
+#GROUP 1
+results_dir=
+stream_output=
+
+-------------------------------------------------
+
+#GROUP 2
+results_dir=
+stream_output=

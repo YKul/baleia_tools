@@ -1,0 +1,47 @@
+------------------------------------------------------------------------
+Config file needs to be named "awarnach_config.txt". 
+
+Case-sensitive throughout, but not white-space sensitive except in 
+filepaths.
+
+Data groups can be called anything, and any number of groups can be 
+supported. Groups can be used, for example, if you are running analyses 
+on male and female associated genes.
+
+The 'email', 'MACSE', and 'JAVA paths' MUST be shared.
+'error/stream output' can also be be shared.
+Shared paths should not be defined for specific groups and their lines
+should be removed completely.
+
+Symbols, characters, etc can be used for formatting, if desired.
+
+Notes will be ignored.
+------------------------------------------------------------------------
+
+EXAMPLE:
+
+#Shared
+email=you@youremail.com
+MACSE_path=/path/to/macse.jar
+JAVA_path=path/to/java/executable
+error_output=/path/for/cluster/job/stderr/stream
+stream_output=/path/for/cluster/job/stdout/stream
+
+-------------------------------------------------
+
+#GROUP 1
+results_dir=/path/for/results/male
+error_output=/path/for/cluster/job/error/stream
+stream_output=/path/for/cluster/job/output/stream
+
+-------------------------------------------------
+
+#GROUP 2
+results_dir=/path/for/results/malecd ../female
+error_output=/path/for/cluster/job/error/stream
+stream_output=/path/for/cluster/job/output/stream
+
+-------------------------------------------------
+
+Above example shows all settings possible for each section.
+Please see awarnach_config_example.txt for a sample template.

@@ -1,14 +1,17 @@
 ------------------------------------------------------------------------
-Config file needs to be named "config.txt". Follow the below format. 
-Case-sensitive but not white-space sensitive.
+Config file needs to be named "config.txt".
+
+Case-sensitive throughout, but not white-space sensitive except in 
+filepaths.
 
 Data groups can be called anything, and any number of groups can be 
 supported. Groups can be used, for example, if you are running analyses 
 on male and female associated genes.
 
-Paths can be the same between groups, but each group must explicitly 
-define every path. Path order does not matter, but paths for a group 
-should be defined together as a group. 
+With the exception of the genomic and cluster job paths, which can be
+shared, each group should have its own paths defined and these paths
+should be unique for each group. This will ensure that results are
+organized.
 
 Symbols, characters, etc can be used for formatting, if desired.
 
@@ -16,20 +19,37 @@ Notes will be ignored.
 ------------------------------------------------------------------------
 EXAMPLE:
 
+A shared path can be used for the genomics and cluster job paths
+if data for both of these groups is in the same folder.
+Other directory paths should be separated by groups.
+These paths can also be specified for separate groups.
+If using specified groups, remove the lines from the Shared
+group completely.
+
+#Shared
+genomics_path=/path/to/shared/directory
+cluster_jobs=/path/to/cluster/jobscript/output/shared
+
+-------------------------------------------------
+
 This is the group for male-associated genes
+
 #Male
 result_dir = /path/to/male/results/directory
-genelist_path=/path/to/male/genelist/file.any_extension
+genelist_path=/path/to/male/genelist/genes_in_list_file.txt
 genomics_path=/path/to/male/directory
+cluster_jobs=/path/to/cluster/jobscript/output/male
 
 -------------------------------------------------
 
 This is the group for female-associated genes
 #Female
 result_dir = /path/to/female/results/directory
-genelist_path=/path/to/female/genelist/file.any_extension
+genelist_path=/path/to/female/genelist/genes_in_list_file.txt
 genomics_path=/path/to/female/directory
+cluster_jobs=/path/to/cluster/jobscript/output/female
 
 -------------------------------------------------
 
-
+Above example shows all settings possible for each section.
+Please see config_example.txt for a sample template.

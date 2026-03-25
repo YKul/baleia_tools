@@ -91,6 +91,7 @@ def multispecies_gene(seq_file, genes_list, output_folder):
             with open(f"{output_folder}/{gene_name}_nuc.fasta", 'a+', encoding="utf-8") as gene_file:
                 SeqIO.write(record, gene_file, "fasta")
 
+#TODO: Ensure protein functions still work - Yuri
 
 ##################################
 # Extract proteins from .faa files

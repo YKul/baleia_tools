@@ -93,25 +93,25 @@ def remove_stop_codons_alignio(input_file, output_file, type="fasta"):
 
 
 #This is implemented only for my own local testing - Yuri
-for sex in ["male","female"]:
-    with open ("../config/config.txt",'r') as config_file:
-        for line in config_file:
-            #Sanitize
-            line = line.strip().replace(" ","")
-            if "results_dir" in line:                
-                #Adds the trailing / in case it's forgotten in the config.txt
-                #to just avoid errors altogether
-                if line[-1] != '/':
-                    line += '/'
-                INPUT_DIR = line.split('=')[-1]+sex+"/gaptrimmed_alignments/"
-                OUTPUT_DIR = line.split('=')[-1]+sex+"/finished_alignments/"
-                #print(INPUT_DIR)
-                #print(OUTPUT_DIR)
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    for file in listdir(INPUT_DIR):
-        #skips the files storing runtimes
-        if not "time" in file and not os.path.isdir(INPUT_DIR+file):
-            # Run the function
-            INPUT_FILE = INPUT_DIR+file
-            OUTPUT_FILE = OUTPUT_DIR+file
-            remove_stop_codons_alignio(INPUT_FILE, OUTPUT_FILE)
+#for sex in ["male","female"]:
+with open ("../config/config.txt",'r') as config_file:
+    for line in config_file:
+        #Sanitize
+        line = line.strip().replace(" ","")
+        if "results_dir" in line:                
+            #Adds the trailing / in case it's forgotten in the config.txt
+            #to just avoid errors altogether
+            if line[-1] != '/':
+                line += '/'
+            INPUT_DIR = line.split('=')[-1]+sex+"/gaptrimmed_alignments/"
+            OUTPUT_DIR = line.split('=')[-1]+sex+"/finished_alignments/"
+            #print(INPUT_DIR)
+            #print(OUTPUT_DIR)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+for file in listdir(INPUT_DIR):
+    #skips the files storing runtimes
+    if not "time" in file and not os.path.isdir(INPUT_DIR+file):
+        # Run the function
+        INPUT_FILE = INPUT_DIR+file
+        OUTPUT_FILE = OUTPUT_DIR+file
+        remove_stop_codons_alignio(INPUT_FILE, OUTPUT_FILE)

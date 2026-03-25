@@ -1,5 +1,6 @@
 # Ignore the config file
 config/config.txt
+config/awarnach_config.txt
 
 # Ignore MacOS system files
 .DS_Store

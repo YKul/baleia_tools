@@ -1,0 +1,22 @@
+Note: Shared paths (genomics or cluster jobs)
+should have no entries for specific groups.
+Config file needs to be named "config.txt"
+
+See config_demo.txt for each entry possible
+for each category.
+
+#Shared
+genomics_path=
+
+
+#Male
+result_dir=
+genelist_path=
+cluster_jobs=
+
+
+#Female
+result_dir=
+genelist_path=
+cluster_jobs=
+
