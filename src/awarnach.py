@@ -34,14 +34,21 @@ def makeJobMAFFT(multispecies_gene_directory,cluster_jobs):
         array_size = len(os.listdir(multispecies_gene_directory[i]))
         header = _createHeader(array_size,"align_MAFFT"+str(i),i)
         body = f"\
+dataset=$((SGE_TASK_ID-1))\n\
+# Uses the gene names in the genes-multispecies directory to avoid added suffixes\
 input_dir='{posixjoin(RESULTS_DIRS[i],"genes-multispecies")}'\n\
-output_dir='{posixjoin(RESULTS_DIRS[i],"nuc_alignments")}'\n\
-source activate orthofinder\n\
+input_files=({posixjoin(RESULTS_DIRS[i],"genes-multispecies",'*.fasta')})\n\
+file_handle=$(basename ${{input_files[$dataset]}})\n\
+no_extension=${{file_handle%.*}}\n\
+\n\
+input_dir={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension')}\n\
+input_file={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension','$no_extension'+"'_nuc_AA.fasta'")}\n\
+output_dir={posixjoin(RESULTS_DIRS[i],"MAFFT_aligned",'$no_extension')}\n\
+\n\
 if [ ! -d $output_dir ]; then\n\
     mkdir -p $output_dir\n\
-fi\n\n\
-input_files=({posixjoin(RESULTS_DIRS[i],"genes-multispecies",'*.fasta')})\n\
-file_handle=$(basename ${{input_files[$dataset]}})\n"
+fi\n\n"
+
         body += "/usr/bin/time -v mafft --globalpair --maxiterate 1000 $input_dir/$file_handle > $output_dir/$file_handle 2> $output_dir/$file_handle.time.global"
 
         with open(os.path.join(cluster_jobs[i],"nuc_MAFFT-group"+str(i)+".sh"),'w') as output:
@@ -78,6 +85,7 @@ def makeJobMACSE(multispecies_gene_directory,cluster_jobs):
         header = _createHeader(array_size,"macse"+str(i),i)
         body = f"\
 dataset=$((SGE_TASK_ID-1))\n\
+# Uses the gene names in the genes-multispecies directory to avoid added suffixes\
 input_dir='{posixjoin(RESULTS_DIRS[i],"genes-multispecies")}'\n\
 input_files=({posixjoin(RESULTS_DIRS[i],"genes-multispecies",'*.fasta')})\n\
 file_handle=$(basename ${{input_files[$dataset]}})\n\
