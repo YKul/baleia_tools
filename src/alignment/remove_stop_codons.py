@@ -57,8 +57,8 @@ def remove_stop_codons_alignio(input_file, output_file, type="fasta"):
                             terminal_is_stop = True
                     if codon in stop_codons:
                         stop_codons_found += 1
-                        codon = '***'
-                if not codon == '***':        
+                        codon = '!!!' # This is a confusing problem because '***' is a wildcard. Use a new character
+                if not codon == '!!!':        
                     new_seq.append(codon)
                 seq_with_stops.append(codon)
             alignment_summary['num_stops'].append(stop_codons_found)
