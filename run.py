@@ -278,10 +278,3 @@ awarnach.makeJobPostFilerMACSE(RESULTS_MULTISPECIES_GENES,CLUSTER_JOBS)
 # raw_data_file = process_protein_file()
 # extract_proteins_of_interest(raw_data_file)
 # make_multispecies_prot_file()
-
-
-Lenovo cancellation case
-C004441222
-
-Loai
-lashmawy@lenovo.com
