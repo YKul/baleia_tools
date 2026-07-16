@@ -28,27 +28,20 @@ def _createHeader(array_size=0,job_name="unnamed_job",stream_output="",error_out
 
     return header
 
-#TODO: verify this still works
+
 def makeJobMAFFT(multispecies_gene_directory,cluster_jobs):
     for i in range(len(RESULTS_DIRS)):
         array_size = len(os.listdir(multispecies_gene_directory[i]))
-        header = _createHeader(array_size,"align_MAFFT"+str(i),i)
+        header = _createHeader(array_size,"align_MAFFT",i)
         body = f"\
-dataset=$((SGE_TASK_ID-1))\n\
-# Uses the gene names in the genes-multispecies directory to avoid added suffixes\
 input_dir='{posixjoin(RESULTS_DIRS[i],"genes-multispecies")}'\n\
-input_files=({posixjoin(RESULTS_DIRS[i],"genes-multispecies",'*.fasta')})\n\
-file_handle=$(basename ${{input_files[$dataset]}})\n\
-no_extension=${{file_handle%.*}}\n\
-\n\
-input_dir={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension')}\n\
-input_file={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension','$no_extension'+"'_nuc_AA.fasta'")}\n\
-output_dir={posixjoin(RESULTS_DIRS[i],"MAFFT_aligned",'$no_extension')}\n\
-\n\
+output_dir='{posixjoin(RESULTS_DIRS[i],"nuc_alignments")}'\n\
+source activate orthofinder\n\
 if [ ! -d $output_dir ]; then\n\
     mkdir -p $output_dir\n\
-fi\n\n"
-
+fi\n\n\
+input_files=({posixjoin(RESULTS_DIRS[i],"genes-multispecies",'*.fasta')})\n\
+file_handle=$(basename ${{input_files[$dataset]}})\n"
         body += "/usr/bin/time -v mafft --globalpair --maxiterate 1000 $input_dir/$file_handle > $output_dir/$file_handle 2> $output_dir/$file_handle.time.global"
 
         with open(os.path.join(cluster_jobs[i],"nuc_MAFFT-group"+str(i)+".sh"),'w') as output:
@@ -85,7 +78,6 @@ def makeJobMACSE(multispecies_gene_directory,cluster_jobs):
         header = _createHeader(array_size,"macse"+str(i),i)
         body = f"\
 dataset=$((SGE_TASK_ID-1))\n\
-# Uses the gene names in the genes-multispecies directory to avoid added suffixes\
 input_dir='{posixjoin(RESULTS_DIRS[i],"genes-multispecies")}'\n\
 input_files=({posixjoin(RESULTS_DIRS[i],"genes-multispecies",'*.fasta')})\n\
 file_handle=$(basename ${{input_files[$dataset]}})\n\
@@ -105,60 +97,4 @@ fi\n\n"
 
 
         with open(os.path.join(cluster_jobs[i],"nuc_macse_align"+str(i)+".sh"),'w') as output:
-            output.write(header+body)    
-
-
-def makeJobHmmCleaner(multispecies_gene_directory,cluster_jobs):
-    for i in range(len(RESULTS_DIRS)):
-        array_size = len(os.listdir(multispecies_gene_directory[i]))
-        header = _createHeader(array_size,"hmmcleaner"+str(i),i)
-        body = f"\
-dataset=$((SGE_TASK_ID-1))\n\
-# Uses the gene names in the genes-multispecies directory to avoid added suffixes\
-input_dir='{posixjoin(RESULTS_DIRS[i],"genes-multispecies")}'\n\
-input_files=({posixjoin(RESULTS_DIRS[i],"genes-multispecies",'*.fasta')})\n\
-file_handle=$(basename ${{input_files[$dataset]}})\n\
-no_extension=${{file_handle%.*}}\n\
-\n\
-input_dir={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension')}\n\
-input_file={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension','$no_extension'+"'_AA.fasta'")}\n\
-output_dir={posixjoin(RESULTS_DIRS[i],"hmmcleaner_filtered",'$no_extension')}\n\
-\n\n"
-        
-        body += f"source activate hmmcleaner \n\
-/usr/bin/time -v HmmCleaner.pl --del-char $ $input_file\
- 2> $output_dir/$file_handle_hmm.time.global\n"
-
-
-        with open(os.path.join(cluster_jobs[i],"nuc_hmmcleaner"+str(i)+".sh"),'w') as output:
-            output.write(header+body)  
-
-def makeJobPostFilerMACSE(multispecies_gene_directory,cluster_jobs):
-    for i in range(len(RESULTS_DIRS)):
-        array_size = len(os.listdir(multispecies_gene_directory[i]))
-        header = _createHeader(array_size,"AA2NT"+str(i),i)
-        body = f"\
-dataset=$((SGE_TASK_ID-1))\n\
-# Uses the gene names in the genes-multispecies directory to avoid added suffixes\
-input_dir='{posixjoin(RESULTS_DIRS[i],"genes-multispecies")}'\n\
-input_files=({posixjoin(RESULTS_DIRS[i],"genes-multispecies",'*.fasta')})\n\
-file_handle=$(basename ${{input_files[$dataset]}})\n\
-no_extension=${{file_handle%.*}}\n\
-\n\
-input_dir={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension')}\n\
-input_file_AA={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension','$no_extension'+"'_AA_hmm.fasta'")}\n\
-input_file_NT={posixjoin(RESULTS_DIRS[i],"macse_aligned",'$no_extension','$no_extension'+"'_NT.fasta'")}\n\
-output_dir={posixjoin(RESULTS_DIRS[i],"macse_AA2NT",'$no_extension')}\n\
-\n\
-if [ ! -d $output_dir ]; then\n\
-    mkdir -p $output_dir\n\
-fi\n\n"
-
-        body += f"/usr/bin/time -v {JAVA_PATH} -jar '{MACSE_PATH}' -prog reportMaskAA2NT\
- -mask_AA '$' -align_AA $input_file_AA -align $input_file_NT -out_NT $output_dir/$no_extension'_NT.fasta'\
- -out_mask_detail $output_dir/hmmCleaner_mask2_detail.aln\
-  2> $output_dir/$file_handle_AA2NT.time.global\n"
-
-
-        with open(os.path.join(cluster_jobs[i],"nuc_macse_AA2NT"+str(i)+".sh"),'w') as output:
             output.write(header+body)    

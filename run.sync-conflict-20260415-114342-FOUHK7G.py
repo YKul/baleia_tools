@@ -247,8 +247,6 @@ def make_multispecies_prot_file(i):
 #the length of the list and passing an index to each function.
 #Since the lists are parallel, the index corresponds to the data group.
 
-#TODO: implement controls rather than automatically running everything each time.
-
 for i in range(len(RESULTS_DIRS)):
     print(f"Dataset {i}: Locating raw nucleotide files...")
     raw_data_file = process_nucleotide_file(i)
@@ -268,20 +266,10 @@ for i in range(len(RESULTS_DIRS)):
     print(f"Dataset {i}: Creating multispecies gene files...")
     #make_multispecies_gene_file(i)
     print("OK")
-    #Local align de-prioritized to get cluster running first
     #align.localMAFFT(RESULTS_MULTISPECIES_GENES[i],RESULTS_NUC_ALIGNMENTS[i])
 #awarnach.makeJobMAFFT(RESULTS_MULTISPECIES_GENES,CLUSTER_JOBS)
-#awarnach.makeJobTrimNonHomoFrags(RESULTS_MULTISPECIES_GENES,CLUSTER_JOBS)
+awarnach.makeJobTrimNonHomoFrags(RESULTS_MULTISPECIES_GENES,CLUSTER_JOBS)
 awarnach.makeJobMACSE(RESULTS_MULTISPECIES_GENES,CLUSTER_JOBS)
-awarnach.makeJobHmmCleaner(RESULTS_MULTISPECIES_GENES,CLUSTER_JOBS)
-awarnach.makeJobPostFilerMACSE(RESULTS_MULTISPECIES_GENES,CLUSTER_JOBS)
 # raw_data_file = process_protein_file()
 # extract_proteins_of_interest(raw_data_file)
 # make_multispecies_prot_file()
-
-
-Lenovo cancellation case
-C004441222
-
-Loai
-lashmawy@lenovo.com

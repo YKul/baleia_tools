@@ -72,14 +72,9 @@ class Config:
 
             self.nuc_alignments.append(f"{result_dir}nuc_alignments")
             os.makedirs(self.nuc_alignments[-1], exist_ok=True)
-
-        #Handles when there is an optional shared path in the config file
-        if len(self.cluster_jobs)==1 and len(self.results)>1:
-            for i in range(1,len(self.results)):
-                self.cluster_jobs.append(self.cluster_jobs[0])
-        if len(self.genomes)==1 and len(self.results)>1:
-            for i in range(1,len(self.results)):
-                self.genomes.append(self.genomes[0])
+        
+        for cluster_dir in self.cluster_jobs:
+            os.makedirs(cluster_dir, exist_ok=True)
 
     def getClusterJobsPath(self,i=None):
         if not i==None:

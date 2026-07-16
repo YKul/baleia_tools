@@ -1,0 +1,12 @@
+NTS: you should change groups to a name variable in program
+#GROUP 1
+results_dir = /home/chordata/Desktop/Bielawski_Lab/MSc/results/male
+genelist_path=/home/chordata/Desktop/Bielawski_Lab/MSc/gene_lists/male_gamete.list
+genomics_path=/home/chordata/Desktop/Bielawski_Lab/MSc/genomes
+cluster_jobs=/home/chordata/Desktop/Bielawski_Lab/MSc/cluster/jobs
+
+#GROUP 2
+results_dir = /home/chordata/Desktop/Bielawski_Lab/MSc/results/female
+genelist_path=/home/chordata/Desktop/Bielawski_Lab/MSc/gene_lists/female_gamete.list
+genomics_path=/home/chordata/Desktop/Bielawski_Lab/MSc/genomes
+cluster_jobs=/home/chordata/Desktop/Bielawski_Lab/MSc/cluster/jobs
